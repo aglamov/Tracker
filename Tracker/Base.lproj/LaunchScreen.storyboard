@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="978-vo-I5W">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LogoImage" translatesAutoresizingMaskIntoConstraints="NO" id="978-vo-I5W">
                                 <rect key="frame" x="151.66666666666666" y="379.66666666666669" width="90" height="93"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="93" id="3qY-m6-GMQ"/>
@@ -39,7 +39,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="30" height="31"/>
+        <image name="LogoImage" width="30" height="31"/>
         <namedColor name="YBlue">
             <color red="0.21568627450980393" green="0.44705882352941173" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
