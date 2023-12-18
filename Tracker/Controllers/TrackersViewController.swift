@@ -59,19 +59,74 @@ final class TrackersViewController: UIViewController, TrackersViewControllerProt
     }
     
     private func addSubviews() {
-            view.addSubview(trackersCollectionView)
-        }
+        view.addSubview(trackersCollectionView)
+        view.addSubview(emptyScreenView)
+    }
     
     private func contstraintSubviews() {
-            NSLayoutConstraint.activate([
-                trackersCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-                trackersCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                trackersCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                trackersCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            ])
-        }
+        NSLayoutConstraint.activate([
+            trackersCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            trackersCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            trackersCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            trackersCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            emptyScreenView.topAnchor.constraint(equalTo: view.topAnchor),
+            emptyScreenView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            emptyScreenView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            emptyScreenView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
+    }
+    
+    private lazy var emptyScreenImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "EmptyTackers")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private lazy var emptyScreenText: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Что будем отслеживать?"
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        return label
+    }()
+    
+    private lazy var emptyScreenView: UIView = {
+        let view = UIView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(emptyScreenImage)
+        view.addSubview(emptyScreenText)
+        
+        NSLayoutConstraint.activate([
+            emptyScreenImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyScreenImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyScreenText.topAnchor.constraint(equalTo: emptyScreenImage.bottomAnchor, constant: 8),
+            emptyScreenText.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        return view
+    }()
+    
+    private lazy var filtersButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Поиск", for: .normal)
+        button.layer.cornerRadius = 16
+        button.backgroundColor = .gray
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
+        button.setTitleColor(.white, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(pushFiltersViewController), for: .touchUpInside)
+        return button
+    }()
+    
     
     @objc private func addButtonTapped() {
+        // Обработка нажатия на кнопку “+”
+    }
+    
+    @objc private func pushFiltersViewController() {
         // Обработка нажатия на кнопку “+”
     }
 }
