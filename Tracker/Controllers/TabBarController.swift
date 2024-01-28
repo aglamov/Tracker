@@ -14,9 +14,6 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
         
         let trackers = TrackersViewController()
-//        let presenter = TrackersPresenter()
-//        presenter.view = trackers as? any TrackersViewControllerProtocol
-//        
         let statistics = StatisticsViewController()
         
         view.backgroundColor = .white
@@ -25,18 +22,14 @@ class TabBarController: UITabBarController {
         statistics.tabBarItem = UITabBarItem(title: "Статистика", image: UIImage(named: "Statistics"), tag: 1)
         
         let trackersNav = UINavigationController(rootViewController: trackers)
-       
-        
         let statisticsNav = UINavigationController(rootViewController: statistics)
-        
-        
+
         // Добавляем линию сверху таб-бара
         let lineView = UIView(frame: CGRect(x: 0, y: -5, width: tabBar.frame.width, height: 0.5))
         lineView.backgroundColor = UIColor.gray // Цвет линии
         tabBar.addSubview(lineView)
         
         setViewControllers([trackersNav, statisticsNav], animated: false)
-        
     }
 
 }

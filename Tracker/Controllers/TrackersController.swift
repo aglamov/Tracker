@@ -56,6 +56,7 @@ final class TrackersViewController: UIViewController, TrackersViewControllerProt
         navigationBar.topItem?.title = "Трекеры"
         navigationBar.prefersLargeTitles = true
         navigationBar.topItem?.largeTitleDisplayMode = .always
+        navigationBar.topItem?.setRightBarButton(datePickerButton, animated: true)
     }
     
     private func addSubviews() {
@@ -114,21 +115,38 @@ final class TrackersViewController: UIViewController, TrackersViewControllerProt
         button.setTitle("Поиск", for: .normal)
         button.layer.cornerRadius = 16
         button.backgroundColor = .gray
-        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(pushFiltersViewController), for: .touchUpInside)
         return button
     }()
     
+    private lazy var datePickerButton: UIBarButtonItem = {
+            
+            let datePicker = UIDatePicker()
+            datePicker.preferredDatePickerStyle = .compact
+            datePicker.datePickerMode = .date
+            datePicker.addTarget(self, action: #selector(setDateForTrackers), for: .valueChanged)
+            let dateButton = UIBarButtonItem(customView: datePicker)
+            
+            return dateButton
+        }()
     
     @objc private func addButtonTapped() {
-        // Обработка нажатия на кнопку “+”
+        let trackerCreation = TrackerCreationViewController()
+        let navController = UINavigationController(rootViewController: trackerCreation)
+        navController.modalPresentationStyle = .fullScreen
+        navigationController?.present(navController, animated: true, completion: nil)
     }
     
     @objc private func pushFiltersViewController() {
         // Обработка нажатия на кнопку “+”
     }
+    
+    @objc private func setDateForTrackers(_ sender: UIDatePicker) {
+           // presenter?.currentDate = sender.date
+        }
 }
 
 
