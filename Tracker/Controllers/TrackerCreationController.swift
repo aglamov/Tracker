@@ -12,7 +12,9 @@ class TrackerCreationViewController: UIViewController {
     let titleLabel = UILabel()
     let habitButton = UIButton()
     let eventButton = UIButton()
-    
+    var categories: [TrackerCategory] = []
+    var completedTrackers: Set<TrackerRecord> = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white

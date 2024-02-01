@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		758415C92B62E6CA002B1E83 /*  TrackerCreation2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758415C82B62E6CA002B1E83 /*  TrackerCreation2Controller.swift */; };
+		758415CB2B67CCF7002B1E83 /* TrackerSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758415CA2B67CCF7002B1E83 /* TrackerSchedule.swift */; };
+		758415CD2B68300C002B1E83 /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758415CC2B68300C002B1E83 /* TrackerCategory.swift */; };
 		759DE6042B2DC635007C26B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759DE6032B2DC635007C26B6 /* AppDelegate.swift */; };
 		759DE6062B2DC635007C26B6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759DE6052B2DC635007C26B6 /* SceneDelegate.swift */; };
 		759DE6082B2DC635007C26B6 /* TrackersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759DE6072B2DC635007C26B6 /* TrackersController.swift */; };
@@ -26,6 +28,8 @@
 
 /* Begin PBXFileReference section */
 		758415C82B62E6CA002B1E83 /*  TrackerCreation2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " TrackerCreation2Controller.swift"; sourceTree = "<group>"; };
+		758415CA2B67CCF7002B1E83 /* TrackerSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerSchedule.swift; sourceTree = "<group>"; };
+		758415CC2B68300C002B1E83 /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
 		759DE6002B2DC635007C26B6 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		759DE6032B2DC635007C26B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		759DE6052B2DC635007C26B6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +107,8 @@
 				75B856692B2F903000A27B4A /* StatisticsController.swift */,
 				75C677212B605D440046422B /* TrackerCreationController.swift */,
 				758415C82B62E6CA002B1E83 /*  TrackerCreation2Controller.swift */,
+				758415CA2B67CCF7002B1E83 /* TrackerSchedule.swift */,
+				758415CC2B68300C002B1E83 /* TrackerCategory.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -205,8 +211,10 @@
 				75C677172B604EF10046422B /* TrackerModel.swift in Sources */,
 				75B8566C2B2F90C800A27B4A /* TrackersPresenter.swift in Sources */,
 				759DE6042B2DC635007C26B6 /* AppDelegate.swift in Sources */,
+				758415CD2B68300C002B1E83 /* TrackerCategory.swift in Sources */,
 				75B8566A2B2F903000A27B4A /* StatisticsController.swift in Sources */,
 				75C677222B605D440046422B /* TrackerCreationController.swift in Sources */,
+				758415CB2B67CCF7002B1E83 /* TrackerSchedule.swift in Sources */,
 				759DE61C2B2E737C007C26B6 /* TabBarController.swift in Sources */,
 				759DE6062B2DC635007C26B6 /* SceneDelegate.swift in Sources */,
 			);
