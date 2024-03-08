@@ -3,7 +3,6 @@
 //  Tracker
 //
 //  Created by Рамиль Аглямов on 29.01.2024.
-//
 
 import Foundation
 import UIKit

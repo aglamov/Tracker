@@ -3,7 +3,6 @@
 //  Tracker
 //
 //  Created by Рамиль Аглямов on 02.02.2024.
-//
 
 import Foundation
 
