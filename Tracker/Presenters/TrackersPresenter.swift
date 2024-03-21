@@ -8,7 +8,7 @@
 import Foundation
 
 protocol TrackersPresenterProtocol {
-    var view: TrackersViewControllerProtocol? { get }
+ //   var view: TrackersViewControllerProtocol? { get }
     var search: String { get set }
     var isEmpty: Bool { get }
 }
@@ -16,7 +16,7 @@ protocol TrackersPresenterProtocol {
 final class TrackersPresenter: TrackersPresenterProtocol {
     var search: String = ""
     
-    weak var view: TrackersViewControllerProtocol?
+  //  weak var view: TrackersViewControllerProtocol?
     
     
     var isEmpty: Bool {

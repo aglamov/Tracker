@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "TrackersViewController.updateCellUIAndButton(for:with:):TrackersController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentDate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "TrackerSchedule.saveButtonTapped():TrackerSchedule.swift">
          <PersistentStrings>
             <PersistentString
@@ -33,13 +41,13 @@
          contextName = "TrackerCreation2ViewController.updateSaveButtonAvailability(): TrackerCreation2Controller.swift">
          <PersistentStrings>
             <PersistentString
-               value = "isCategorySelected">
+               value = "isScheduleSelected">
             </PersistentString>
             <PersistentString
                value = "trackerNameTextField.text?.isEmpty">
             </PersistentString>
             <PersistentString
-               value = "isScheduleSelected">
+               value = "isCategorySelected">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -74,10 +82,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "TrackersViewController.doneButtonTapped(in:):TrackersController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "TrackerRecord">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "TrackersViewController.setDateForTrackers(_:):TrackersController.swift">
          <PersistentStrings>
             <PersistentString
                value = "TrackerCategoryManager.shared.trackerCategories">
+            </PersistentString>
+            <PersistentString
+               value = "TrackerRecordManager.shared.trackerRecords">
             </PersistentString>
             <PersistentString
                value = "trackerCategories">
@@ -97,6 +116,14 @@
          <PersistentStrings>
             <PersistentString
                value = "selectedCategory">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TrackersViewController.updateButtonAvailability(for:):TrackersController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "trackersCollectionView.visibleCells">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -154,7 +181,7 @@
          contextName = "GLOBAL">
          <PersistentStrings>
             <PersistentString
-               value = "addButton.currentImage">
+               value = "trackersCollectionView.visibleCells">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -188,6 +215,17 @@
          <PersistentStrings>
             <PersistentString
                value = "delegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TrackersViewController.updateCells():TrackersController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "trackersCollectionView.numberOfItems(inSection: section)">
+            </PersistentString>
+            <PersistentString
+               value = "trackersCollectionView.numberOfSections">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

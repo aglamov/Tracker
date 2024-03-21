@@ -15,6 +15,11 @@ class TrackerManager {
     func addTracker(_ tracker: Tracker) {
         trackers.append(tracker)
     }
+    
+    func findTracker(for id: UUID) -> Tracker? {
+        return trackers.first(where: { $0.id == id })
+    }
+
 }
 
 class TrackerCategoryManager {
@@ -37,24 +42,33 @@ class TrackerCategoryManager {
 class TrackerRecordManager {
     static let shared = TrackerRecordManager()
     
-    var trackerRecords: Set<TrackerRecord> = []
+    var completedTrackers: Set<TrackerRecord> = []
     
     private init() {}
     
     func addTrackerRecord(id: UUID, date: Date) {
         let trackerRecord = TrackerRecord(id: id, date: date)
-        trackerRecords.insert(trackerRecord)
+        completedTrackers.insert(trackerRecord)
+        print("Добавлен новый элемент \(completedTrackers)")
+        print("Количество элементов массива стало \(completedTrackers.count)")
     }
     
-    func removeTrackerRecord(withID id: UUID) {
-        if let recordToRemove = trackerRecords.first(where: { $0.id == id }) {
-            trackerRecords.remove(recordToRemove)
+    func removeTrackerRecord(id: UUID, date: Date) {
+        let trackerRecordToRemove = completedTrackers.first { $0.id == id && Calendar.current.isDate($0.date, inSameDayAs: date) }
+        if let trackerRecordToRemove = trackerRecordToRemove {
+            completedTrackers.remove(trackerRecordToRemove)
+            print("Удален элемент \(completedTrackers)")
+            print("Количество элементов массива стало \(completedTrackers.count)")           
         }
     }
     
     func getTrackerRecords() -> Set<TrackerRecord> {
-        return trackerRecords
+        return completedTrackers
     }
+    
+    func countTrackerRecords(for id: UUID) -> Int {
+            return completedTrackers.filter { $0.id == id }.count
+        }
 }
 
 

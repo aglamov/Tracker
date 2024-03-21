@@ -7,8 +7,13 @@
 import Foundation
 import UIKit
 
+protocol TrackerCellDelegate: AnyObject {
+    func doneButtonTapped(in cell: TrackerCell)
+}
+
 class TrackerCell: UICollectionViewCell {
-    weak var delegate: TrackersViewControllerProtocol?
+  //  weak var delegate: TrackersViewControllerProtocol?
+    weak var delegate: TrackerCellDelegate?
     var id: UUID?
     var currentDate: Date?
     
@@ -86,22 +91,6 @@ class TrackerCell: UICollectionViewCell {
     }
     
     @objc func doneButtonTapped(_ sender: UIButton) {
-        guard let date = delegate?.currentDate else {
-            return
-        }
-        
-        if !sender.isSelected {
-            if let recordIDToInsert = id {
-                TrackerRecordManager.shared.addTrackerRecord(id: recordIDToInsert, date: date)
-            }
-        } else {
-            if let recordIDToRemove = id {
-                TrackerRecordManager.shared.removeTrackerRecord(withID: recordIDToRemove)
-            }
-        }
-        
-        let count = TrackerRecordManager.shared.trackerRecords.filter { $0.id == id }.count
-        countLabel.text = "\(count) раз"
-        sender.isSelected = !sender.isSelected
+        delegate?.doneButtonTapped(in: self)
     }
 }

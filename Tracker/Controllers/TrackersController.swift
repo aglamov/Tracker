@@ -6,17 +6,16 @@
 
 import UIKit
 
-protocol TrackersViewControllerProtocol: AnyObject {
-    var presenter: TrackersPresenterProtocol? { get }
-    var trackersCollectionView: UICollectionView { get }
-    var currentDate: Date? { get }
-    func didSelectDate(_ date: Date)
-}
+//protocol TrackersViewControllerProtocol: AnyObject {
+//    var presenter: TrackersPresenterProtocol? { get }
+//    var trackersCollectionView: UICollectionView { get }
+//    var currentDate: Date? { get }
+//    func didSelectDate(_ date: Date)
+//}
 
-final class TrackersViewController: UIViewController, TrackersViewControllerProtocol, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+final class TrackersViewController: UIViewController, TrackerCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    var currentDate: Date?
-    
+    var currentDate: Date = Date()
     var presenter: TrackersPresenterProtocol?
     var trackerCategories: [TrackerCategory] {
         return TrackerCategoryManager.shared.trackerCategories
@@ -31,8 +30,8 @@ final class TrackersViewController: UIViewController, TrackersViewControllerProt
         cell.id = tracker.id
         cell.titleLabel.text = tracker.name
         cell.delegate = self
-               cell.currentDate = currentDate
-
+        cell.currentDate = currentDate
+        updateCellUIAndButton(for: cell)
         return cell
     }
     
@@ -69,6 +68,11 @@ final class TrackersViewController: UIViewController, TrackersViewControllerProt
         return UIEdgeInsets(top: 5, left: 16, bottom: 24, right: 16)
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let trackerCell = cell as? TrackerCell else { return }
+        updateCellUIAndButton(for: trackerCell)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         visibleTrackerCategories = trackerCategories
@@ -79,9 +83,9 @@ final class TrackersViewController: UIViewController, TrackersViewControllerProt
     lazy var trackersCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 18 // Расстояние между ячейками по вертикали
-        layout.minimumInteritemSpacing = 8 // Расстояние между ячейками по горизонтали
-        layout.sectionInset = UIEdgeInsets(top: 5, left: 16, bottom: 5, right: 16) // Отступы от краёв экрана
+        layout.minimumLineSpacing = 18
+        layout.minimumInteritemSpacing = 8
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 16, bottom: 5, right: 16)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
@@ -144,7 +148,7 @@ final class TrackersViewController: UIViewController, TrackersViewControllerProt
         setupTrackersScreen()
         visibleTrackerCategories = trackerCategories
         trackersCollectionView.delegate = self
-        currentDate = Date() 
+        currentDate = Date()
     }
     
     private func setupTrackersScreen() {
@@ -167,9 +171,9 @@ final class TrackersViewController: UIViewController, TrackersViewControllerProt
         navigationItem.rightBarButtonItem = datePickerButton
     }
     
-    func didSelectDate(_ date: Date) {
-        currentDate = date
-    }
+    //    func didSelectDate(_ date: Date) {
+    //        currentDate = date
+    //    }
     
     
     private func addSubviews() {
@@ -196,13 +200,40 @@ final class TrackersViewController: UIViewController, TrackersViewControllerProt
         ])
     }
     
-    func filteredTrackerCategories(for weekday: Int) -> [TrackerCategory] {
-        return trackerCategories.filter({ (category) in
-            category.trackers.contains(where: { (tracker) in
-                tracker.schedule.contains(weekday)
-            })
-        })
+    func updateCellUIAndButton(for cell: TrackerCell) {
+        guard let trackerID = cell.id else {
+            return
+        }
+        print("Обрабатываем трекер \(trackerID)")
+        let recordCount = TrackerRecordManager.shared.countTrackerRecords(for: trackerID)
+        print("Количество записей с таким трекером \(recordCount)")
+        cell.countLabel.text = "\(recordCount) раз"
+        
+        let isCompleted = isTrackerCompleted(trackerID, date: currentDate)
+        print("На дату \(currentDate) трекер выполнен \(isCompleted)")
+        cell.addButton.isSelected = isCompleted
     }
+    
+    func doneButtonTapped(in cell: TrackerCell) {
+        guard let trackerID = cell.id else {
+            return
+        }
+        
+        if !cell.addButton.isSelected {
+            TrackerRecordManager.shared.addTrackerRecord(id: trackerID, date: currentDate)
+            cell.addButton.isSelected = true
+        } else {
+            TrackerRecordManager.shared.removeTrackerRecord(id: trackerID, date: currentDate)
+            cell.addButton.isSelected = false
+        }
+        trackersCollectionView.reloadData()
+    }
+    
+    
+    private func isTrackerCompleted(_ trackerID: UUID, date: Date) -> Bool {
+        return TrackerRecordManager.shared.getTrackerRecords().contains(where: { $0.id == trackerID && Calendar.current.isDate($0.date, inSameDayAs: date) })
+    }
+    
     
     @objc private func addButtonTapped() {
         let trackerCreation = TrackerCreationViewController()
@@ -212,22 +243,49 @@ final class TrackersViewController: UIViewController, TrackersViewControllerProt
     }
     
     @objc private func setDateForTrackers(_ sender: UIDatePicker) {
-        let date = sender.date
-        currentDate = date
-        let weekday = Calendar.current.component(.weekday, from: date)
-        var filteredCategories: [TrackerCategory] = []
-        
-        for category in TrackerCategoryManager.shared.trackerCategories {
-            let filteredTrackers = category.trackers.filter { $0.schedule.contains(weekday) || $0.type == .unregularEvent }
-            if !filteredTrackers.isEmpty {
-                let filteredCategory = TrackerCategory(name: category.name, trackers: filteredTrackers)
-                filteredCategories.append(filteredCategory)
+        currentDate = sender.date
+        print ("Обрабатывает дату \(currentDate)")
+        let weekday = Calendar.current.component(.weekday, from: currentDate)
+        visibleTrackerCategories = TrackerCategoryManager.shared.trackerCategories.filter { category in
+            category.trackers.contains { tracker in
+                tracker.schedule.contains(weekday) || tracker.type == .unregularEvent
             }
         }
-        visibleTrackerCategories = filteredCategories
+        
         checkEmptyState()
+        
+        if visibleTrackerCategories.isEmpty {
+            trackersCollectionView.reloadData()
+            return
+        }
+        
+        for category in visibleTrackerCategories {
+                for tracker in category.trackers {
+                    guard let cell = findCell(for: tracker) else {
+                        continue
+                    }
+                    print(cell)
+      //              updateCellUIAndButton(for: cell)
+                    
+                }
+            }
+
         trackersCollectionView.reloadData()
     }
     
+    private func findCell(for tracker: Tracker) -> TrackerCell? {
+        for section in 0..<trackersCollectionView.numberOfSections {
+            for item in 0..<trackersCollectionView.numberOfItems(inSection: section) {
+                if let cell = trackersCollectionView.cellForItem(at: IndexPath(item: item, section: section)) as? TrackerCell, cell.id == tracker.id {
+                    return cell
+                }
+            }
+        }
+        return nil
+    }
+
 }
+
+
+
 
