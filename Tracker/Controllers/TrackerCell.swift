@@ -90,6 +90,15 @@ class TrackerCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func updateButtonAvailability(for date: Date) {
+            // Проверяем, является ли текущая дата будущей
+            if date > Date() {
+                addButton.isEnabled = false
+            } else {
+                addButton.isEnabled = true
+            }
+        }
+    
     @objc func doneButtonTapped(_ sender: UIButton) {
         delegate?.doneButtonTapped(in: self)
     }

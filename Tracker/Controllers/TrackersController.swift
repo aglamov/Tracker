@@ -31,7 +31,9 @@ final class TrackersViewController: UIViewController, TrackerCellDelegate, UICol
         cell.titleLabel.text = tracker.name
         cell.delegate = self
         cell.currentDate = currentDate
+        cell.updateButtonAvailability(for: currentDate) 
         updateCellUIAndButton(for: cell)
+        
         return cell
     }
     
