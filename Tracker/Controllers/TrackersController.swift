@@ -170,6 +170,8 @@ final class TrackersViewController: UIViewController, TrackerCellDelegate, UICol
         navigationBar.topItem?.title = "Трекеры"
         navigationBar.prefersLargeTitles = true
         navigationBar.topItem?.largeTitleDisplayMode = .always
+        navigationBar.barTintColor = .white
+        navigationBar.isTranslucent = false
         navigationItem.rightBarButtonItem = datePickerButton
     }
     
@@ -209,7 +211,7 @@ final class TrackersViewController: UIViewController, TrackerCellDelegate, UICol
         print("Обрабатываем трекер \(trackerID)")
         let recordCount = TrackerRecordManager.shared.countTrackerRecords(for: trackerID)
         print("Количество записей с таким трекером \(recordCount)")
-        cell.countLabel.text = "\(recordCount) раз"
+        cell.countLabel.text = "\(recordCount) \(dayString(for: recordCount))"
         
         let isCompleted = isTrackerCompleted(trackerID, date: currentDate)
         print("На дату \(currentDate) трекер выполнен \(isCompleted)")
@@ -236,11 +238,19 @@ final class TrackersViewController: UIViewController, TrackerCellDelegate, UICol
         return TrackerRecordManager.shared.getTrackerRecords().contains(where: { $0.id == trackerID && Calendar.current.isDate($0.date, inSameDayAs: date) })
     }
     
-    
+    func dayString(for days: Int) -> String {
+        if days % 10 == 1 && days % 100 != 11 {
+            return "день"
+        } else if days % 10 >= 2 && days % 10 <= 4 && (days % 100 < 10 || days % 100 >= 20) {
+            return "дня"
+        } else {
+            return "дней"
+        }
+    }
+
     @objc private func addButtonTapped() {
         let trackerCreation = TrackerCreationViewController()
         let navController = UINavigationController(rootViewController: trackerCreation)
-        navController.modalPresentationStyle = .fullScreen
         navigationController?.present(navController, animated: true, completion: nil)
     }
     
@@ -267,8 +277,6 @@ final class TrackersViewController: UIViewController, TrackerCellDelegate, UICol
                         continue
                     }
                     print(cell)
-      //              updateCellUIAndButton(for: cell)
-                    
                 }
             }
 

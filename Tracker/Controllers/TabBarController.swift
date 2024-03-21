@@ -19,7 +19,7 @@ class TabBarController: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    static let shared = TabBarController()  // Статическое свойство для доступа к экземпляру
+    static let shared = TabBarController() 
     
     private func configureTabBarController() {
         let trackers = TrackersViewController()

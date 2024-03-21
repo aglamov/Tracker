@@ -40,6 +40,7 @@ final class TrackerSchedule: UIViewController, UITableViewDataSource, UITableVie
         let switchView = UISwitch(frame: .zero)
         switchView.setOn(false, animated: true)
         switchView.tag = indexPath.row
+        switchView.onTintColor = .yBlue
         cell.accessoryView = switchView
         switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         return cell

@@ -38,7 +38,7 @@ class TrackerCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         label.textAlignment = .left
-        label.text = "0 раз"
+        label.text = "0 дней"
         return label
     }()
     
