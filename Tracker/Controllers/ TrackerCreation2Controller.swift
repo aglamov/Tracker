@@ -237,8 +237,9 @@ final class TrackerCreation2ViewController: UIViewController, UITableViewDataSou
             TrackerCategoryManager.shared.addNewTrackerCategories(newCategory)
         }
         
-        let TabBarController = TabBarController.shared
-        navigationController?.pushViewController(TabBarController, animated: true)
+        let tabBarController = TabBarController.shared
+        tabBarController.navigationItem.hidesBackButton = true
+        navigationController?.pushViewController(tabBarController, animated: true)
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
