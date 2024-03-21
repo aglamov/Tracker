@@ -7,7 +7,7 @@
 import Foundation
 import UIKit
 
-final class TrackerCreation2ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
+final class TrackerCreationExtendedViewController: UIViewController  {
     
     var selectedType: TrackerType
     var selectedCategory: String = ""
@@ -90,49 +90,6 @@ final class TrackerCreation2ViewController: UIViewController, UITableViewDataSou
         setupTableView.reloadData() 
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = .yBackground
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let currentTrackerType = selectedType
-        return currentTrackerType == .habit ? 2: 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        if indexPath.row == 0 {
-            if selectedCategory == "" { cell.textLabel?.text = "Выберите категорию" } else {
-                cell.textLabel?.text = "Категория"
-                cell.detailTextLabel?.text = selectedCategory
-                cell.detailTextLabel?.textColor = .gray
-                cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)
-            }
-            
-        } else if indexPath.row == 1 {
-            cell.textLabel?.text = "Расписание"
-            cell.detailTextLabel?.text = selectedDays
-            cell.detailTextLabel?.textColor = .gray
-            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 1 {
-            scheduleButtonTapped()
-            return
-        }
-        if indexPath.row == 0 {
-            categoryButtonTapped()
-        }
-    }
-    
     func updateSaveButtonAvailability() {
         let isNameValid = !(trackerNameTextField.text?.isEmpty ?? true)
         let isCategorySelected = !selectedCategory.isEmpty
@@ -199,7 +156,7 @@ final class TrackerCreation2ViewController: UIViewController, UITableViewDataSou
         saveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
-    @objc func scheduleButtonTapped() {
+    @objc private func scheduleButtonTapped() {
         let trackerCreation = TrackerSchedule()
         trackerCreation.delegate = self
         let navController = UINavigationController(rootViewController: trackerCreation)
@@ -207,7 +164,7 @@ final class TrackerCreation2ViewController: UIViewController, UITableViewDataSou
         navigationController?.present(navController, animated: true, completion: nil)
     }
     
-    @objc func categoryButtonTapped() {
+    @objc private func categoryButtonTapped() {
         let trackerCreation = TrackerCategoryViewController()
         trackerCreation.delegate = self
         let navController = UINavigationController(rootViewController: trackerCreation)
@@ -215,11 +172,11 @@ final class TrackerCreation2ViewController: UIViewController, UITableViewDataSou
         navigationController?.present(navController, animated: true, completion: nil)
     }
     
-    @objc func cancelButtonTapped() {
+    @objc private func cancelButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func saveButtonTapped() {
+    @objc private func saveButtonTapped() {
         let id = UUID()
         let name = trackerNameTextField.text ?? ""
         let color = UIColor.red
@@ -247,7 +204,54 @@ final class TrackerCreation2ViewController: UIViewController, UITableViewDataSou
     }
 }
 
-extension TrackerCreation2ViewController: CategorySelectionDelegate {
+extension TrackerCreationExtendedViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let currentTrackerType = selectedType
+        return currentTrackerType == .habit ? 2: 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
+        if indexPath.row == 0 {
+            if selectedCategory == "" { cell.textLabel?.text = "Выберите категорию" } else {
+                cell.textLabel?.text = "Категория"
+                cell.detailTextLabel?.text = selectedCategory
+                cell.detailTextLabel?.textColor = .gray
+                cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)
+            }
+            
+        } else if indexPath.row == 1 {
+            cell.textLabel?.text = "Расписание"
+            cell.detailTextLabel?.text = selectedDays
+            cell.detailTextLabel?.textColor = .gray
+            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)
+        }
+        return cell
+    }
+}
+
+extension TrackerCreationExtendedViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = .yBackground
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.row == 1 {
+            scheduleButtonTapped()
+            return
+        }
+        if indexPath.row == 0 {
+            categoryButtonTapped()
+        }
+    }
+}
+
+extension TrackerCreationExtendedViewController: CategorySelectionDelegate {
     func didDeselectCategory() {
         updateSaveButtonAvailability()
     }
@@ -259,7 +263,7 @@ extension TrackerCreation2ViewController: CategorySelectionDelegate {
     }
 }
 
-extension TrackerCreation2ViewController: TrackerScheduleDelegate {
+extension TrackerCreationExtendedViewController: TrackerScheduleDelegate {
     func didUpdateSelectedWeekdays(_ selectedWeekdays: [(String, Int)]) {
         selectedDays = selectedWeekdays.map { $0.0 }.joined(separator: ", ")
         selectedIndexes = selectedWeekdays.map { $0.1 }

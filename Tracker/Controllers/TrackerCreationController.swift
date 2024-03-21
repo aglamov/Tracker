@@ -64,14 +64,14 @@ class TrackerCreationViewController: UIViewController {
     }
     
     @objc func habitButtonTapped() {
-        let trackerCreation = TrackerCreation2ViewController(selectedType: TrackerType.habit)
+        let trackerCreation = TrackerCreationExtendedViewController(selectedType: TrackerType.habit)
         let navController = UINavigationController(rootViewController: trackerCreation)
         navController.modalPresentationStyle = .fullScreen
         navigationController?.present(navController, animated: true, completion: nil)
     }
     
     @objc func eventButtonTapped() {
-        let trackerCreation = TrackerCreation2ViewController(selectedType: TrackerType.unregularEvent)
+        let trackerCreation = TrackerCreationExtendedViewController(selectedType: TrackerType.unregularEvent)
         let navController = UINavigationController(rootViewController: trackerCreation)
         navController.modalPresentationStyle = .fullScreen
         navigationController?.present(navController, animated: true, completion: nil)
